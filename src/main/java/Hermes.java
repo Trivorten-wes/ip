@@ -9,24 +9,41 @@ public class Hermes {
                 + indent + "What can I do for you?\n" + line;
         String bye = line + indent + "Bye! Hope to see you again soon!\n" + line;
 
-        String[] list = new String[100];
+        Task[] taskList = new Task[100];
         int index = 0;
 
         System.out.print(greeting);
         String message = in.nextLine();
+        String doneness = " ";
 
         while (!message.equals("bye")) {
             if (message.equals("list")) {
                 System.out.print(line);
+                System.out.print(indent + "Your list of items:\n");
                 for (int i = 0; i < index; i++) {
-                    System.out.println(indent + (i+1) + ". " + list[i]);
+                    System.out.print(indent + (i+1) + ".");
+                    taskList[i].printTask();
                 }
                 System.out.print(line);
+            } else if (message.startsWith("mark ")) {
+                int doneTask = Integer.parseInt(message.substring(5)) - 1;
+                taskList[doneTask].mark();
+                System.out.print(line + indent
+                        + "Good Job! This is now marked as done:\n"
+                        + indent + " ");
+                taskList[doneTask].printTask();
+            } else if (message.startsWith("unmark ")) {
+                int doneTask = Integer.parseInt(message.substring(7)) - 1;
+                taskList[doneTask].unmark();
+                System.out.print(line + indent
+                        + "Ok... this is now marked as undone:\n"
+                        + indent + " ");
+                taskList[doneTask].printTask();
             } else {
                 System.out.print(line);
                 System.out.println("        added: " + message);
                 System.out.print(line);
-                list[index] = message;
+                taskList[index] = new Task(message, false);
                 index++;
             }
             message = in.nextLine();
