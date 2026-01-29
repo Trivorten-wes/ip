@@ -14,7 +14,6 @@ public class Hermes {
 
         System.out.print(greeting);
         String message = in.nextLine();
-        String doneness = " ";
 
         while (!message.equals("bye")) {
             if (message.equals("list")) {
