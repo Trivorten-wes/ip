@@ -15,6 +15,10 @@ public class Hermes {
         System.out.print(greeting);
         String message = in.nextLine();
 
+        /**
+         * Series of if else statements that
+         * reacts to what the user inputs
+         */
         while (!message.equals("bye")) {
             if (message.equals("list")) {
                 System.out.print(line);
