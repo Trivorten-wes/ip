@@ -2,21 +2,26 @@
  * Class used to track the tasks the user
  * inputs into the list
  *
- * @attribute isDone if the task is marked.
- * @attribute activity what the user needs to do.
+ * isDone if the task is marked.
+ * activity what the user needs to do.
  */
 
 public class Task {
     private boolean isDone;
-    private String activity;
+    private String description;
 
     public Task() {
         isDone = false;
-        activity = null;
+        description = null;
+    }
+
+    public Task(String description) {
+        isDone = false;
+        this.description = description;
     }
 
     public Task(String activity, boolean done) {
-        this.activity = activity;
+        this.description = activity;
         this.isDone = done;
     }
 
@@ -24,8 +29,12 @@ public class Task {
         return isDone;
     }
 
-    public String getActivity() {
-        return activity;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void mark() {
@@ -36,12 +45,14 @@ public class Task {
         isDone = false;
     }
 
-    public void printTask() {
+    @Override
+    public String toString() {
+        String doneness;
         if (isDone) {
-            System.out.print("[X] ");
+            doneness = "[X] ";
         } else {
-            System.out.print("[ ] ");
+            doneness = "[ ] ";
         }
-        System.out.println(activity);
+        return doneness + description;
     }
 }
