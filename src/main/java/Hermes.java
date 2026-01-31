@@ -58,12 +58,18 @@ public class Hermes {
                 tasks[undoneTask].unmark();
                 addToPrint("Ok...This is now marked as undone");
                 addToPrint(tasks[undoneTask].toString());
-            } else if (message.startsWith("todo")){
+            } else if (message.startsWith("todo ")){
                 tasks[index] = new Todo(message);
                 index++;
                 addToPrint("Ok I have added this to your tasks:");
                 addToPrint(" " + tasks[index - 1]);
                 addToPrint("Now you have " + index + " in your list");
+            } else if (message.startsWith("deadline ") && message.contains("/by ")) {
+                tasks[index] = new Deadline(message);
+                index++;
+                addToPrint("Ok I have added this to your tasks:");
+                addToPrint(" " + tasks[index - 1]);
+                addToPrint("Now you have " + index + " tasks in your list");
             } else {
                 addToPrint("Sorry I don't understand");
             }
