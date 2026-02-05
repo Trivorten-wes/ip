@@ -70,6 +70,14 @@ public class Hermes {
                 addToPrint("Ok I have added this to your tasks:");
                 addToPrint(" " + tasks[index - 1]);
                 addToPrint("Now you have " + index + " tasks in your list");
+            } else if (message.startsWith("event ")
+                    && message.contains("/from ")
+                    && message.contains("/to")) {
+                tasks[index] = new Event(message);
+                index++;
+                addToPrint("Ok I have added this to your tasks:");
+                addToPrint(" " + tasks[index - 1]);
+                addToPrint("Now you have " + index + " tasks in your list");
             } else {
                 addToPrint("Sorry I don't understand");
             }
