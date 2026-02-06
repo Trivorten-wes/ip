@@ -54,6 +54,7 @@ public class Hermes {
             message = in.nextLine();
         }
 
-        System.out.print(bye);
+        print.add(bye);
+        print.display();
     }
 }
