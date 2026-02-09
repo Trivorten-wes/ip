@@ -8,11 +8,14 @@ public class Event extends Task {
     public void setEnd(String date) {
         end = date;
     }
-    public Event(String description) {
-        String[] components = description.split("event |/from |/to ");
-        setDescription(components[1]);
-        setStart(components[2]);
-        setEnd(components[3]);
+    public Event(String description) throws HermesMissingDetails {
+        String[] components = description.split("/from |/to ");
+        if (components.length <= 2) {
+            throw new HermesMissingDetails();
+        }
+        setDescription(components[0]);
+        setStart(components[1]);
+        setEnd(components[2]);
     }
 
     @Override

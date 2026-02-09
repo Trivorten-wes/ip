@@ -6,7 +6,7 @@
  * activity what the user needs to do.
  */
 
-public class Task {
+public abstract class Task {
     private boolean isDone;
     private String description;
 
@@ -18,20 +18,7 @@ public class Task {
     public Task(String description) {
         isDone = false;
         this.description = description;
-    }
-
-    public Task(String activity, boolean done) {
-        this.description = activity;
-        this.isDone = done;
-    }
-
-    public boolean getDone() {
-        return isDone;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+    };
 
     public void setDescription(String description) {
         this.description = description;
