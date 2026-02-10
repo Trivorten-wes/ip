@@ -8,9 +8,16 @@
         Now you have 1 tasks in your list
        ___________________________________
        ___________________________________
+        You need to give me more details
+        about what task you want me to add
+       ___________________________________
+       ___________________________________
         Ok I have added this to your tasks:
          [D][ ] coursemology (by: Friday 4pm)
         Now you have 2 tasks in your list
+       ___________________________________
+       ___________________________________
+        I'm going to need a time and/or date
        ___________________________________
        ___________________________________
         Ok I have added this to your tasks:

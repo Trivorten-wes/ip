@@ -1,5 +1,7 @@
 todo iP
+deadline /by Friday 4pm
 deadline coursemology /by Friday 4pm
+event lecture /from Friday 4pm
 event lecture /from Friday 4pm /to 6pm
 mark 1
 list
