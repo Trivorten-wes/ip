@@ -8,10 +8,13 @@ public class Event extends Task {
     public void setEnd(String date) {
         end = date;
     }
-    public Event(String description) throws HermesMissingDetails {
+    public Event(String description) throws HermesMissingTime, HermesMissingDescription {
         String[] components = description.split("/from |/to ");
         if (components.length <= 2) {
-            throw new HermesMissingDetails();
+            throw new HermesMissingTime();
+        }
+        if (components[0].isEmpty()) {
+            throw new HermesMissingDescription();
         }
         setDescription(components[0]);
         setStart(components[1]);
