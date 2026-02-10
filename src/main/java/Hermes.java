@@ -1,60 +1,93 @@
 import java.util.Scanner;
 
 public class Hermes {
+    static Task[] tasks = new Task[100];
+    static int index = 0;
+    static Printer print = new Printer();
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        Printer print = new Printer();
-        String greetings1 = "Hello! I'm Hermes the God of communication!";
-        String greetings2 = "What can I do for you?";
-        String bye = "Bye! Hope to see you again soon!";
 
-        Task[] tasks = new Task[100];
-        int index = 0;
-
-        print.add(greetings1);
-        print.add(greetings2);
-        print.display();
-        String message = in.nextLine();
+        print.hello();
+        String message = in.nextLine().strip();
 
         while (!message.equals("bye")) {
-            if (message.equals("list")) {
-                print.add("Here are your tasks:");
-                for (int i = 0; i < index; i++) {
-                    print.add((i+1) + "."  + tasks[i]);
+
+            String[] messageComponents = message.split("\\s+", 2);
+            Command commandWord;
+            String taskDescription = "";
+
+            try {
+                commandWord = Command.valueOf(messageComponents[0].toUpperCase());
+                if (commandWord != Command.LIST) {
+                    taskDescription = messageComponents[1].strip();
                 }
-            } else if (message.startsWith("mark ")) {
-                int doneTask = Integer.parseInt(message.substring(5)) - 1;
-                tasks[doneTask].mark();
-                print.add("Good Job! This is now marked as done:");
-                print.add(tasks[doneTask].toString());
-            } else if (message.startsWith("unmark ")) {
-                int undoneTask = Integer.parseInt(message.substring(7)) - 1;
-                tasks[undoneTask].unmark();
-                print.add("Ok...This is now marked as undone");
-                print.add(tasks[undoneTask].toString());
-            } else if (message.startsWith("todo ")){
-                tasks[index] = new Todo(message);
-                print.newTask(tasks[index], index + 1);
-                index++;
-            } else if (message.startsWith("deadline ") && message.contains("/by ")) {
-                tasks[index] = new Deadline(message);
-                print.newTask(tasks[index],index + 1);
-                index++;
-            } else if (message.startsWith("event ")
-                    && message.contains("/from ")
-                    && message.contains("/to")) {
-                tasks[index] = new Event(message);
-                print.newTask(tasks[index],index + 1);
-                index++;
-            } else {
-                print.add("Sorry I don't understand");
+                executeCommand(commandWord, taskDescription);
+            } catch (IllegalArgumentException e) {
+                print.add("I need proper instructions");
+                print.add("Try Todo/Deadline/Event/Mark/Unmark");
+            } catch (ArrayIndexOutOfBoundsException | HermesMissingDescription e) {
+                print.add("You need to give me more details");
+                print.add("about what task you want me to add");
+            } catch (HermesMissingTime e) {
+                print.add("I'm going to need a time and/or date");
             }
             print.display();
             message = in.nextLine();
         }
 
-        print.add(bye);
-        print.display();
+        print.bye();
+    }
+
+    /**
+     * Executes the corresponding command
+     * based on the command word
+     * @param commandWord the command to be executed
+     * @param description task description and time frame
+     * @throws HermesMissingTime no time frame was given
+     * @throws HermesMissingDescription the task description is empty
+     */
+    public static void executeCommand(Command commandWord, String description)
+            throws HermesMissingTime, HermesMissingDescription {
+
+        switch (commandWord) {
+        case LIST:
+            print.add("Here are your tasks:");
+            for (int i = 0; i < index; i++) {
+                print.add((i + 1) + "." + tasks[i]);
+            }
+            break;
+        case MARK:
+            int doneTask = Integer.parseInt(description) - 1;
+            tasks[doneTask].mark();
+            print.add("Good Job! This is now marked as done:");
+            print.add(tasks[doneTask].toString());
+            break;
+        case UNMARK:
+            int undoneTask = Integer.parseInt(description) - 1;
+            tasks[undoneTask].unmark();
+            print.add("Ok...This is now marked as undone");
+            print.add(tasks[undoneTask].toString());
+            break;
+        case TODO:
+            tasks[index] = new Todo(description);
+            print.newTask(tasks[index], index);
+            index++;
+            break;
+        case DEADLINE:
+            tasks[index] = new Deadline(description);
+            print.newTask(tasks[index], index);
+            index++;
+            break;
+        case EVENT:
+            tasks[index] = new Event(description);
+            print.newTask(tasks[index], index);
+            index++;
+            break;
+        default:
+            // Error cases already caught above
+            break;
+        }
     }
 }
+
