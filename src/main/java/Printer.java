@@ -1,5 +1,5 @@
 public class Printer {
-    private String[] linesToPrint;
+    private final String[] linesToPrint;
     private int numOfLines;
 
     String greetings1 = "Hello! I'm Hermes the God of communication!";

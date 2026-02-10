@@ -1,7 +1,6 @@
 /**
  * Class used to track the tasks the user
  * inputs into the list
- *
  * isDone if the task is marked.
  * activity what the user needs to do.
  */
@@ -14,11 +13,6 @@ public abstract class Task {
         isDone = false;
         description = null;
     }
-
-    public Task(String description) {
-        isDone = false;
-        this.description = description;
-    };
 
     public void setDescription(String description) {
         this.description = description;

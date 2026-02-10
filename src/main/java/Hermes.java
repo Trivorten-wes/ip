@@ -14,7 +14,7 @@ public class Hermes {
         while (!message.equals("bye")) {
 
             String[] messageComponents = message.split("\\s+", 2);
-            Command commandWord = Command.NULL;
+            Command commandWord;
             String taskDescription = "";
 
             try {
