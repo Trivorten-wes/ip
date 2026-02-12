@@ -1,3 +1,5 @@
+package duke.task;
+
 /**
  * Class used to track the tasks the user
  * inputs into the list
