@@ -1,3 +1,8 @@
+package duke.task;
+
+import duke.exceptions.HermesMissingTime;
+import duke.exceptions.HermesMissingDescription;
+
 public class Event extends Task {
     private String start;
     private String end;

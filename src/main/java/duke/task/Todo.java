@@ -1,3 +1,7 @@
+package duke.task;
+
+import duke.exceptions.HermesMissingDescription;
+
 public class Todo extends Task {
 
     public Todo(String description) throws HermesMissingDescription {

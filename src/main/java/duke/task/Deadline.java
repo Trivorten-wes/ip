@@ -1,3 +1,8 @@
+package duke.task;
+
+import duke.exceptions.HermesMissingTime;
+import duke.exceptions.HermesMissingDescription;
+
 public class Deadline extends Task {
     private String by;
 
