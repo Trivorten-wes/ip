@@ -96,6 +96,7 @@ public class Hermes {
             break;
         case DELETE:
             int deleteTask = Integer.parseInt(description) - 1;
+            print.removeTask(tasks.get(deleteTask));
             tasks.remove(deleteTask);
             index--;
             break;
