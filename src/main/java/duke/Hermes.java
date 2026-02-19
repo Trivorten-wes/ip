@@ -1,6 +1,4 @@
 package duke;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
@@ -11,11 +9,8 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
 
-import java.util.Scanner;
-
 public class Hermes {
     static ArrayList<Task> tasks = new ArrayList<>();
-    static int index = 0;
     static Printer print = new Printer();
     final static String filePath = "data/tasks.txt";
 
@@ -27,7 +22,7 @@ public class Hermes {
         String message = in.nextLine().strip();
 
         try {
-            file.read();
+            tasks = file.read();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (HermesMissingTime | HermesMissingDescription e) {
@@ -80,7 +75,7 @@ public class Hermes {
         switch (commandWord) {
         case LIST:
             print.add("Here are your tasks:");
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i < tasks.size(); i++) {
                 print.add((i + 1) + "." + tasks.get(i));
             }
             break;
@@ -100,24 +95,20 @@ public class Hermes {
             break;
         case TODO:
             tasks.add(new Todo(description));
-            print.newTask(tasks.get(index), index);
-            index++;
+            print.newTask(tasks.get(tasks.size() - 1), tasks.size());
             break;
         case DEADLINE:
             tasks.add(new Deadline(description));
-            print.newTask(tasks.get(index), index);
-            index++;
+            print.newTask(tasks.get(tasks.size() - 1), tasks.size());
             break;
         case EVENT:
             tasks.add(new Event(description));
-            print.newTask(tasks.get(index), index);
-            index++;
+            print.newTask(tasks.get(tasks.size() - 1), tasks.size());
             break;
         case DELETE:
             int deleteTask = Integer.parseInt(description) - 1;
             print.removeTask(tasks.get(deleteTask));
             tasks.remove(deleteTask);
-            index--;
             break;
         default:
             // Error cases already caught above
