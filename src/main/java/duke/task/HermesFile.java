@@ -49,11 +49,11 @@ public class HermesFile {
         String description = string.substring(6);
         switch (string.charAt(1)) {
         case 'T' :
-            return new Todo(description);
+            return new Todo(description, marked);
         case 'D':
-            return new Deadline(description);
+            return new Deadline(description, marked);
         case 'E':
-            return new Event(description);
+            return new Event(description, marked);
         default:
             throw new HermesMissingTime();
         }

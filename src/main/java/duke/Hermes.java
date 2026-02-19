@@ -84,13 +84,13 @@ public class Hermes {
             break;
         case MARK:
             int doneTask = Integer.parseInt(description) - 1;
-            tasks[doneTask].mark();
+            tasks[doneTask].setDone(true);
             print.add("Good Job! This is now marked as done:");
             print.add(tasks[doneTask].toString());
             break;
         case UNMARK:
             int undoneTask = Integer.parseInt(description) - 1;
-            tasks[undoneTask].unmark();
+            tasks[undoneTask].setDone(false);
             print.add("Ok...This is now marked as undone");
             print.add(tasks[undoneTask].toString());
             break;
