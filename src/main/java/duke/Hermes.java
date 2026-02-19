@@ -1,11 +1,14 @@
 package duke;
-
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Scanner;
+import java.io.IOException;
 import duke.exceptions.HermesMissingTime;
 import duke.exceptions.HermesMissingDescription;
-import duke.task.Deadline;
-import duke.task.Event;
-import duke.task.Task;
-import duke.task.Todo;
+import duke.task.*;
+
+import java.util.ArrayList;
+
 
 import java.util.Scanner;
 
@@ -13,25 +16,34 @@ public class Hermes {
     static Task[] tasks = new Task[100];
     static int index = 0;
     static Printer print = new Printer();
+    final static String filePath = "data/tasks.txt";
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        HermesFile file = new HermesFile("data/tasks.txt");
 
         print.hello();
         String message = in.nextLine().strip();
 
-        while (!message.equals("bye")) {
+        try {
+            file.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+        while (!message.equals("bye")) {
             String[] messageComponents = message.split("\\s+", 2);
             Command commandWord;
             String taskDescription = "";
 
             try {
+                FileWriter fw = new FileWriter(filePath);
                 commandWord = Command.valueOf(messageComponents[0].toUpperCase());
                 if (commandWord != Command.LIST) {
                     taskDescription = messageComponents[1].strip();
                 }
                 executeCommand(commandWord, taskDescription);
+                file.write(tasks);
             } catch (IllegalArgumentException e) {
                 print.add("I need proper instructions");
                 print.add("Try Todo/Deadline/Event/Mark/Unmark");
@@ -40,6 +52,8 @@ public class Hermes {
                 print.add("about what task you want me to add");
             } catch (HermesMissingTime e) {
                 print.add("I'm going to need a time and/or date");
+            } catch (IOException e) {
+
             }
             print.display();
             message = in.nextLine();
