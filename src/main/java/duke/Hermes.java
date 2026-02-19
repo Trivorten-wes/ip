@@ -1,6 +1,7 @@
 package duke;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
 import duke.exceptions.HermesMissingTime;
@@ -13,7 +14,7 @@ import duke.task.Todo;
 import java.util.Scanner;
 
 public class Hermes {
-    static Task[] tasks = new Task[100];
+    static ArrayList<Task> tasks = new ArrayList<>();
     static int index = 0;
     static Printer print = new Printer();
     final static String filePath = "data/tasks.txt";
@@ -80,20 +81,20 @@ public class Hermes {
         case LIST:
             print.add("Here are your tasks:");
             for (int i = 0; i < index; i++) {
-                print.add((i + 1) + "." + tasks[i]);
+                print.add((i + 1) + "." + tasks.get(i));
             }
             break;
         case MARK:
             int doneTask = Integer.parseInt(description) - 1;
-            tasks.get(doneTask).mark();
-            tasks[doneTask].setDone(true);
+            tasks.get(doneTask).setDone(true);
+            tasks.get(doneTask).setDone(true);
             print.add("Good Job! This is now marked as done:");
             print.add(tasks.get(doneTask).toString());
             break;
         case UNMARK:
             int undoneTask = Integer.parseInt(description) - 1;
-            tasks[undoneTask].setDone(false);
-            tasks.get(undoneTask).unmark();
+            tasks.get(undoneTask).setDone(false);
+            tasks.get(undoneTask).setDone(false);
             print.add("Ok...This is now marked as undone");
             print.add(tasks.get(undoneTask).toString());
             break;
