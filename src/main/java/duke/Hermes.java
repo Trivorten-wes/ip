@@ -20,7 +20,7 @@ public class Hermes {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        HermesFile file = new HermesFile("data/tasks.txt");
+        HermesFile file = new HermesFile(filePath);
 
         print.hello();
         String message = in.nextLine().strip();
@@ -28,6 +28,9 @@ public class Hermes {
         try {
             file.read();
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (HermesMissingTime | HermesMissingDescription e) {
+            System.out.println("File Corrupted!");
             throw new RuntimeException(e);
         }
 
@@ -37,7 +40,6 @@ public class Hermes {
             String taskDescription = "";
 
             try {
-                FileWriter fw = new FileWriter(filePath);
                 commandWord = Command.valueOf(messageComponents[0].toUpperCase());
                 if (commandWord != Command.LIST) {
                     taskDescription = messageComponents[1].strip();
@@ -53,7 +55,7 @@ public class Hermes {
             } catch (HermesMissingTime e) {
                 print.add("I'm going to need a time and/or date");
             } catch (IOException e) {
-
+                print.add("File error!");
             }
             print.display();
             message = in.nextLine();

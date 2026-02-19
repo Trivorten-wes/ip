@@ -1,5 +1,8 @@
 package duke.task;
 
+import duke.exceptions.HermesMissingDescription;
+import duke.exceptions.HermesMissingTime;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -21,11 +24,12 @@ public class HermesFile {
         }
     }
 
-    public ArrayList<Task> read() throws FileNotFoundException {
+    public ArrayList<Task> read()
+            throws FileNotFoundException, HermesMissingDescription, HermesMissingTime {
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner s = new Scanner(file);
         while (s.hasNext()) {
-            System.out.println(s.nextLine());
+            tasks.add(stringToTask(s.nextLine()));
         }
         return tasks;
     }
@@ -34,9 +38,24 @@ public class HermesFile {
         try (FileWriter writer = new FileWriter(file)) {
             for (Task task : tasks) {
                 if (task != null) {
-                    writer.write(task.toString() + System.lineSeparator());
+                    writer.write(task + System.lineSeparator());
                 }
             }
+        }
+    }
+
+    private Task stringToTask(String string) throws HermesMissingTime, HermesMissingDescription {
+        boolean marked = string.charAt(4) == 'X';
+        String description = string.substring(6);
+        switch (string.charAt(1)) {
+        case 'T' :
+            return new Todo(description);
+        case 'D':
+            return new Deadline(description);
+        case 'E':
+            return new Event(description);
+        default:
+            throw new HermesMissingTime();
         }
     }
 }

@@ -10,7 +10,7 @@ public class Deadline extends Task {
         by = date;
     }
     public Deadline(String description) throws HermesMissingTime, HermesMissingDescription {
-        String[] components = description.split("/by ");
+        String[] components = description.split("by: ");
         if (components.length <= 1) {
             throw new HermesMissingTime();
         }
@@ -23,6 +23,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + "(by: " + by + ")";
+        return "[D]" + super.toString() + "by: " + by;
     }
 }

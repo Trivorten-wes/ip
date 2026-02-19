@@ -14,7 +14,7 @@ public class Event extends Task {
         end = date;
     }
     public Event(String description) throws HermesMissingTime, HermesMissingDescription {
-        String[] components = description.split("/from |/to ");
+        String[] components = description.split("from: |to: ");
         if (components.length <= 2) {
             throw new HermesMissingTime();
         }
@@ -28,8 +28,8 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + "(from: " + start
-                + " to: " + end +")";
+        return "[E]" + super.toString() + "from: " + start
+                + " to: " + end;
     }
 
 }
