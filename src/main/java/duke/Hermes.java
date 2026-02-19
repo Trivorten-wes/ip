@@ -8,9 +8,10 @@ import duke.task.Task;
 import duke.task.Todo;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Hermes {
-    static Task[] tasks = new Task[100];
+    static ArrayList<Task> tasks = new ArrayList<>();
     static int index = 0;
     static Printer print = new Printer();
 
@@ -63,35 +64,41 @@ public class Hermes {
         case LIST:
             print.add("Here are your tasks:");
             for (int i = 0; i < index; i++) {
-                print.add((i + 1) + "." + tasks[i]);
+                print.add((i + 1) + "." + tasks.get(i));
             }
             break;
         case MARK:
             int doneTask = Integer.parseInt(description) - 1;
-            tasks[doneTask].mark();
+            tasks.get(doneTask).mark();
             print.add("Good Job! This is now marked as done:");
-            print.add(tasks[doneTask].toString());
+            print.add(tasks.get(doneTask).toString());
             break;
         case UNMARK:
             int undoneTask = Integer.parseInt(description) - 1;
-            tasks[undoneTask].unmark();
+            tasks.get(undoneTask).unmark();
             print.add("Ok...This is now marked as undone");
-            print.add(tasks[undoneTask].toString());
+            print.add(tasks.get(undoneTask).toString());
             break;
         case TODO:
-            tasks[index] = new Todo(description);
-            print.newTask(tasks[index], index);
+            tasks.add(new Todo(description));
+            print.newTask(tasks.get(index), index);
             index++;
             break;
         case DEADLINE:
-            tasks[index] = new Deadline(description);
-            print.newTask(tasks[index], index);
+            tasks.add(new Deadline(description));
+            print.newTask(tasks.get(index), index);
             index++;
             break;
         case EVENT:
-            tasks[index] = new Event(description);
-            print.newTask(tasks[index], index);
+            tasks.add(new Event(description));
+            print.newTask(tasks.get(index), index);
             index++;
+            break;
+        case DELETE:
+            int deleteTask = Integer.parseInt(description) - 1;
+            print.removeTask(tasks.get(deleteTask));
+            tasks.remove(deleteTask);
+            index--;
             break;
         default:
             // Error cases already caught above

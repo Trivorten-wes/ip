@@ -68,4 +68,14 @@ public class Printer {
         add(" " + task.toString());
         add("Now you have " + (numOfItems + 1) + " tasks in your list");
     }
+
+    /**
+     * Prints the message associated
+     * with removing a task
+     * @param task task that has been removed
+     */
+    public void removeTask(Task task) {
+        add("Not sure why you would remove a task but this task is gone");
+        add(" " + task.toString());
+    }
 }
