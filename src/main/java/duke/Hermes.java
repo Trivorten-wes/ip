@@ -1,5 +1,8 @@
 package duke;
-
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Scanner;
+import java.io.IOException;
 import duke.exceptions.HermesMissingTime;
 import duke.exceptions.HermesMissingDescription;
 import duke.task.Deadline;
@@ -8,18 +11,28 @@ import duke.task.Task;
 import duke.task.Todo;
 
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Hermes {
-    static ArrayList<Task> tasks = new ArrayList<>();
+    static Task[] tasks = new Task[100];
     static int index = 0;
     static Printer print = new Printer();
+    final static String filePath = "data/tasks.txt";
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        HermesFile file = new HermesFile(filePath);
 
         print.hello();
         String message = in.nextLine().strip();
+
+        try {
+            file.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (HermesMissingTime | HermesMissingDescription e) {
+            System.out.println("File Corrupted!");
+            throw new RuntimeException(e);
+        }
 
         while (!message.equals("bye")) {
 
@@ -33,6 +46,7 @@ public class Hermes {
                     taskDescription = messageComponents[1].strip();
                 }
                 executeCommand(commandWord, taskDescription);
+                file.write(tasks);
             } catch (IllegalArgumentException e) {
                 print.add("I need proper instructions");
                 print.add("Try Todo/Deadline/Event/Mark/Unmark");
@@ -41,6 +55,8 @@ public class Hermes {
                 print.add("about what task you want me to add");
             } catch (HermesMissingTime e) {
                 print.add("I'm going to need a time and/or date");
+            } catch (IOException e) {
+                print.add("File error!");
             }
             print.display();
             message = in.nextLine();
@@ -64,17 +80,19 @@ public class Hermes {
         case LIST:
             print.add("Here are your tasks:");
             for (int i = 0; i < index; i++) {
-                print.add((i + 1) + "." + tasks.get(i));
+                print.add((i + 1) + "." + tasks[i]);
             }
             break;
         case MARK:
             int doneTask = Integer.parseInt(description) - 1;
             tasks.get(doneTask).mark();
+            tasks[doneTask].setDone(true);
             print.add("Good Job! This is now marked as done:");
             print.add(tasks.get(doneTask).toString());
             break;
         case UNMARK:
             int undoneTask = Integer.parseInt(description) - 1;
+            tasks[undoneTask].setDone(false);
             tasks.get(undoneTask).unmark();
             print.add("Ok...This is now marked as undone");
             print.add(tasks.get(undoneTask).toString());

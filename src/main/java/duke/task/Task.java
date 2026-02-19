@@ -20,12 +20,8 @@ public abstract class Task {
         this.description = description;
     }
 
-    public void mark() {
-        isDone = true;
-    }
-
-    public void unmark() {
-        isDone = false;
+    public void setDone(boolean isDone) {
+        this.isDone = isDone;
     }
 
     @Override

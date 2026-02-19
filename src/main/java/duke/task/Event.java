@@ -13,8 +13,8 @@ public class Event extends Task {
     public void setEnd(String date) {
         end = date;
     }
-    public Event(String description) throws HermesMissingTime, HermesMissingDescription {
-        String[] components = description.split("/from |/to ");
+    public Event(String description, boolean isDone) throws HermesMissingTime, HermesMissingDescription {
+        String[] components = description.split("from: |to: ");
         if (components.length <= 2) {
             throw new HermesMissingTime();
         }
@@ -24,12 +24,17 @@ public class Event extends Task {
         setDescription(components[0]);
         setStart(components[1]);
         setEnd(components[2]);
+        setDone(isDone);
+    }
+
+    public Event(String description) throws HermesMissingTime, HermesMissingDescription {
+        this(description, false);
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + "(from: " + start
-                + " to: " + end +")";
+        return "[E]" + super.toString() + "from: " + start
+                + " to: " + end;
     }
 
 }
