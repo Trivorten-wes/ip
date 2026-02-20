@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class Parser {
 
-
     public CommandWord parseCommand(String commandWord) {
         return CommandWord.valueOf(commandWord.toUpperCase());
     }

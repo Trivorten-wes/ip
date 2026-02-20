@@ -2,5 +2,6 @@ package duke.command;
 
 public enum CommandWord {
     LIST, MARK, UNMARK,
-    ADD, DELETE, NULL
+    TODO, DEADLINE, EVENT,
+    DELETE
 }

@@ -80,4 +80,22 @@ public class UI {
         add(" " + task.toString());
         display();
     }
+
+    public void mark(Task task) {
+        add("Good Job! This is now marked as done:");
+        add(task.toString());
+        display();
+    }
+
+    public void unmark(Task task) {
+        add("Ok...This is now marked as undone");
+        add(task.toString());
+    }
+
+    public void list(TaskList tasks) {
+        add("Here are your tasks:");
+        for (int i = 0; i < tasks.size(); i++) {
+            add((i + 1) + "." + tasks.get(i));
+        }
+    }
 }

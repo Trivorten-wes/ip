@@ -1,7 +1,12 @@
 package duke;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
+
+import duke.command.CommandWord;
 import duke.exceptions.HermesMissingTime;
 import duke.exceptions.HermesMissingDescription;
 import duke.task.Deadline;
@@ -11,18 +16,18 @@ import duke.task.Todo;
 
 public class Hermes {
     static ArrayList<Task> tasks = new ArrayList<>();
-    static Printer print = new Printer();
+    static UI print = new UI();
     final static String filePath = "data/tasks.txt";
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        HermesFile file = new HermesFile(filePath);
+        Storage storage = new Storage(filePath);
 
         print.hello();
         String message = in.nextLine().strip();
 
         try {
-            tasks = file.read();
+            tasks = storage.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (HermesMissingTime | HermesMissingDescription e) {
@@ -33,27 +38,9 @@ public class Hermes {
         while (!message.equals("bye")) {
 
             String[] messageComponents = message.split("\\s+", 2);
-            Command commandWord;
+            CommandWord commandWord;
             String taskDescription = "";
 
-            try {
-                commandWord = Command.valueOf(messageComponents[0].toUpperCase());
-                if (commandWord != Command.LIST) {
-                    taskDescription = messageComponents[1].strip();
-                }
-                executeCommand(commandWord, taskDescription);
-                file.write(tasks);
-            } catch (IllegalArgumentException e) {
-                print.add("I need proper instructions");
-                print.add("Try Todo/Deadline/Event/Mark/Unmark");
-            } catch (ArrayIndexOutOfBoundsException | HermesMissingDescription e) {
-                print.add("You need to give me more details");
-                print.add("about what task you want me to add");
-            } catch (HermesMissingTime e) {
-                print.add("I'm going to need a time and/or date");
-            } catch (IOException e) {
-                print.add("File error!");
-            }
             print.display();
             message = in.nextLine();
         }
@@ -61,59 +48,91 @@ public class Hermes {
         print.bye();
     }
 
-    /**
-     * Executes the corresponding command
-     * based on the command word
-     * @param commandWord the command to be executed
-     * @param description task description and time frame
-     * @throws HermesMissingTime no time frame was given
-     * @throws HermesMissingDescription the task description is empty
-     */
-    public static void executeCommand(Command commandWord, String description)
-            throws HermesMissingTime, HermesMissingDescription {
+//    /**
+//     * Executes the corresponding command
+//     * based on the command word
+//     * @param commandWord the command to be executed
+//     * @param description task description and time frame
+//     * @throws HermesMissingTime no time frame was given
+//     * @throws HermesMissingDescription the task description is empty
+//     */
+//    public static void executeCommand(CommandWord commandWord, String description)
+//            throws HermesMissingTime, HermesMissingDescription {
+//
+//        switch (commandWord) {
+//        case LIST:
+//            print.add("Here are your tasks:");
+//            for (int i = 0; i < tasks.size(); i++) {
+//                print.add((i + 1) + "." + tasks.get(i));
+//            }
+//            break;
+//        case MARK:
+//            int doneTask = Integer.parseInt(description) - 1;
+//            tasks.get(doneTask).setDone(true);
+//            tasks.get(doneTask).setDone(true);
+//            print.add("Good Job! This is now marked as done:");
+//            print.add(tasks.get(doneTask).toString());
+//            break;
+//        case UNMARK:
+//            int undoneTask = Integer.parseInt(description) - 1;
+//            tasks.get(undoneTask).setDone(false);
+//            tasks.get(undoneTask).setDone(false);
+//            print.add("Ok...This is now marked as undone");
+//            print.add(tasks.get(undoneTask).toString());
+//            break;
+//        case DELETE:
+//            int deleteTask = Integer.parseInt(description) - 1;
+//            print.removeTask(tasks.get(deleteTask));
+//            tasks.remove(deleteTask);
+//            break;
+//        default:
+//            // Error cases already caught above
+//            break;
+//        }
+//    }
+//
+//    public static class Storage {
+//        private final File file;
+//
+//        public Storage(String filePath) {
+//            file = new File(filePath);
+//            try {
+//                file.getParentFile().mkdirs();
+//                file.createNewFile();
+//            } catch (IOException e) {
+//                System.out.println("Failed to create file in specified file path");
+//            }
+//        }
+//
+//        public ArrayList<Task> load()
+//                throws FileNotFoundException, HermesMissingDescription, HermesMissingTime {
+//            ArrayList<Task> tasks = new ArrayList<>();
+//            Scanner s = new Scanner(file);
+//            while (s.hasNext()) {
+//                tasks.add(stringToTask(s.nextLine()));
+//            }
+//            return tasks;
+//        }
 
-        switch (commandWord) {
-        case LIST:
-            print.add("Here are your tasks:");
-            for (int i = 0; i < tasks.size(); i++) {
-                print.add((i + 1) + "." + tasks.get(i));
-            }
-            break;
-        case MARK:
-            int doneTask = Integer.parseInt(description) - 1;
-            tasks.get(doneTask).setDone(true);
-            tasks.get(doneTask).setDone(true);
-            print.add("Good Job! This is now marked as done:");
-            print.add(tasks.get(doneTask).toString());
-            break;
-        case UNMARK:
-            int undoneTask = Integer.parseInt(description) - 1;
-            tasks.get(undoneTask).setDone(false);
-            tasks.get(undoneTask).setDone(false);
-            print.add("Ok...This is now marked as undone");
-            print.add(tasks.get(undoneTask).toString());
-            break;
-        case TODO:
-            tasks.add(new Todo(description));
-            print.newTask(tasks.get(tasks.size() - 1), tasks.size());
-            break;
-        case DEADLINE:
-            tasks.add(new Deadline(description));
-            print.newTask(tasks.get(tasks.size() - 1), tasks.size());
-            break;
-        case EVENT:
-            tasks.add(new Event(description));
-            print.newTask(tasks.get(tasks.size() - 1), tasks.size());
-            break;
-        case DELETE:
-            int deleteTask = Integer.parseInt(description) - 1;
-            print.removeTask(tasks.get(deleteTask));
-            tasks.remove(deleteTask);
-            break;
-        default:
-            // Error cases already caught above
-            break;
-        }
-    }
+//        public void store(ArrayList<Task> tasks) throws IOException {
+//            try (FileWriter writer = new FileWriter(file)) {
+//                for (Task task : tasks) {
+//                    if (task != null) {
+//                        writer.write(task + System.lineSeparator());
+//                    }
+//                }
+//            }
+//        }
+
+//        private Task stringToTask(String string) throws HermesMissingTime, HermesMissingDescription {
+//            boolean marked = string.charAt(4) == 'X';
+//            String description = string.substring(6);
+//            return switch (string.charAt(1)) {
+//            case 'T' -> new Todo(description, marked);
+//            case 'D' -> new Deadline(description, marked);
+//            case 'E' -> new Event(description, marked);
+//            default -> null;
+//            };
+//        }
 }
 
