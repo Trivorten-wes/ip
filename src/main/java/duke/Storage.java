@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
 
-public class HermesFile {
+public class Storage {
     private final File file;
 
-    public HermesFile(String filePath) {
+    public Storage(String filePath) {
         file = new File(filePath);
         try {
             file.getParentFile().mkdirs();
@@ -27,7 +27,7 @@ public class HermesFile {
         }
     }
 
-    public ArrayList<Task> read()
+    public ArrayList<Task> load()
             throws FileNotFoundException, HermesMissingDescription, HermesMissingTime {
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner s = new Scanner(file);
@@ -37,7 +37,7 @@ public class HermesFile {
         return tasks;
     }
 
-    public void write(ArrayList<Task> tasks) throws IOException {
+    public void store(ArrayList<Task> tasks) throws IOException {
         try (FileWriter writer = new FileWriter(file)) {
             for (Task task : tasks) {
                 if (task != null) {

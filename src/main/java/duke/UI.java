@@ -2,7 +2,7 @@ package duke;
 
 import duke.task.Task;
 
-public class Printer {
+public class UI {
     private final String[] linesToPrint;
     private int numOfLines;
 
@@ -10,7 +10,7 @@ public class Printer {
     String greetings2 = "What can I do for you?";
     String bye = "Bye! Hope to see you again soon!";
 
-    Printer() {
+    UI() {
         linesToPrint = new String[100];
         numOfLines = 0;
     }
@@ -67,6 +67,7 @@ public class Printer {
         add("Ok I have added this to your tasks:");
         add(" " + task.toString());
         add("Now you have " + (numOfItems + 1) + " tasks in your list");
+        display();
     }
 
     /**
@@ -77,5 +78,6 @@ public class Printer {
     public void removeTask(Task task) {
         add("Not sure why you would remove a task but this task is gone");
         add(" " + task.toString());
+        display();
     }
 }
