@@ -1,0 +1,6 @@
+package duke.command;
+
+public enum CommandWord {
+    LIST, MARK, UNMARK,
+    ADD, DELETE, NULL
+}
