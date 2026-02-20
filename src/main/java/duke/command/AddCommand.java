@@ -9,13 +9,14 @@ import duke.task.Event;
 import duke.task.TaskType;
 import duke.task.Todo;
 
-public class AddCommand {
+public class AddCommand implements Command{
     private final TaskType taskType;
 
-    AddCommand(TaskType taskType) {
+    public AddCommand(TaskType taskType) {
         this.taskType = taskType;
     }
 
+    @Override
     public void execute(String description, TaskList tasks, UI ui) throws HermesMissingDescription, HermesMissingTime {
         switch (taskType) {
         case TODO:
