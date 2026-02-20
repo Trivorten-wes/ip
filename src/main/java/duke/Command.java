@@ -1,7 +1,5 @@
 package duke;
 
-public enum Command {
-    LIST, MARK, UNMARK,
-    TODO, DEADLINE, EVENT,
-    DELETE, NULL
+public interface Command {
+    public void execute(String description, TaskList tasks, UI ui);
 }
