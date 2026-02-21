@@ -1,13 +1,9 @@
 package duke.task;
 
-import duke.exceptions.HermesInvalidTime;
 import duke.exceptions.HermesMissingDescription;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class Deadline extends Task {
     private LocalDateTime by;
@@ -16,17 +12,8 @@ public class Deadline extends Task {
         by = date;
     }
 
-    public Deadline(String description, boolean isDone) throws HermesMissingDescription {
+    public Deadline(String description, LocalDateTime date, boolean isDone) throws HermesMissingDescription {
         setDescription(description);
-    }
-
-    public Deadline(String description) throws HermesMissingDescription {
-        this(description, false);
-    }
-
-    public Deadline(String description, LocalDateTime date) {
-        this(description);
-        setBy(date);
     }
 
     @Override

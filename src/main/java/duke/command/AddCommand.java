@@ -24,7 +24,7 @@ public class AddCommand implements Command{
             return new Todo(description);
         case DEADLINE:
             String[] components = description.split("by:");
-            return new Deadline(components[0], parseDateTime(components[1], isLoad));
+            return new Deadline(components[0], parseDateTime(components[1], isLoad), isDone);
         case EVENT:
             int fromIndex = description.indexOf("from:");
             int toIndex = description.indexOf("to:");

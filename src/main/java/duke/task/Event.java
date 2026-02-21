@@ -1,9 +1,6 @@
 package duke.task;
 
-import duke.exceptions.HermesInvalidTime;
 import duke.exceptions.HermesMissingDescription;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -24,10 +21,6 @@ public class Event extends Task {
         setStart(from);
         setEnd(to);
         setDone(isDone);
-    }
-
-    public Event(String description, LocalDateTime from, LocalDateTime to) {
-        this(description, from, to, false);
     }
 
     @Override
