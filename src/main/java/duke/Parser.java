@@ -1,11 +1,7 @@
 package duke;
 
 import duke.command.*;
-import duke.exceptions.HermesMissingDescription;
-import duke.exceptions.HermesMissingTime;
 import duke.task.TaskType;
-
-import java.io.IOException;
 
 public class Parser {
 

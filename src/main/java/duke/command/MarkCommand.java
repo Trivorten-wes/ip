@@ -5,7 +5,7 @@ import duke.UI;
 import duke.exceptions.HermesInvalidParameter;
 
 public class MarkCommand implements Command {
-    private boolean isDone;
+    private final boolean isDone;
 
     public MarkCommand(boolean isDone) {
         this.isDone = isDone;

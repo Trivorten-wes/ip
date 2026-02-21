@@ -6,5 +6,5 @@ import duke.exceptions.HermesMissingDescription;
 import duke.exceptions.HermesMissingTime;
 
 public interface Command {
-    public void execute(String description, TaskList tasks, UI ui) throws HermesMissingDescription, HermesMissingTime;
+    void execute(String description, TaskList tasks, UI ui) throws HermesMissingDescription, HermesMissingTime;
 }
