@@ -1,34 +1,31 @@
 package duke.task;
 
-import duke.exceptions.HermesMissingTime;
+import duke.exceptions.HermesInvalidTime;
 import duke.exceptions.HermesMissingDescription;
 
-public class Event extends Task {
-    private String start;
-    private String end;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-    public void setStart(String date) {
+public class Event extends Task {
+    private LocalDateTime start;
+    private LocalDateTime end;
+
+    public void setStart(LocalDateTime date) {
         start = date;
     }
-    public void setEnd(String date) {
+    public void setEnd(LocalDateTime date) {
         end = date;
     }
-    public Event(String description, boolean isDone) throws HermesMissingTime, HermesMissingDescription {
-        String[] components = description.split("from: |to: ");
-        if (components.length <= 2) {
-            throw new HermesMissingTime();
-        }
-        if (components[0].isEmpty()) {
-            throw new HermesMissingDescription();
-        }
-        setDescription(components[0]);
-        setStart(components[1]);
-        setEnd(components[2]);
+
+    public Event(String description, LocalDateTime from, LocalDateTime to, boolean isDone) throws HermesMissingDescription {
+        setDescription(description);
+        setStart(from);
+        setEnd(to);
         setDone(isDone);
     }
 
-    public Event(String description) throws HermesMissingTime, HermesMissingDescription {
-        this(description, false);
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
+        this(description, from, to, false);
     }
 
     @Override
