@@ -6,12 +6,14 @@ import java.util.ArrayList;
 public class TaskList {
     private final ArrayList<Task> tasks;
 
-    TaskList() {
+    public TaskList() {
         tasks = new ArrayList<>();
     }
 
     public void add(Task task) {
-        tasks.add(task);
+        if (!tasks.contains(task)) {
+            tasks.add(task);
+        }
     }
 
     public void delete(int index) {

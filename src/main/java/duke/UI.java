@@ -111,4 +111,12 @@ public class UI {
         }
         display();
     }
+
+    public void showFound(TaskList tasks) {
+        add("Bam! Here's the tasks as you requested");
+        for (int i = 0; i < tasks.size(); i++) {
+            add((i + 1) + "." + tasks.get(i));
+        }
+        display();
+    }
 }
