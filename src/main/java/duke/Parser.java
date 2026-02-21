@@ -14,8 +14,7 @@ public class Parser {
     }
 
     public Command parse(String inputText) {
-        String[] components = inputText.split(" ", 2);
-        CommandWord commandWord = parseCommand(components[0]);
+        CommandWord commandWord = parseCommand(inputText);
         return switch (commandWord) {
             case LIST -> new ListCommand();
             case MARK -> new MarkCommand(true);

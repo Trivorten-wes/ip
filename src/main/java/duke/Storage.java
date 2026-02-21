@@ -2,10 +2,7 @@ package duke;
 
 import duke.exceptions.HermesMissingDescription;
 import duke.exceptions.HermesMissingTime;
-import duke.task.Deadline;
-import duke.task.Event;
-import duke.task.Task;
-import duke.task.Todo;
+import duke.task.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,9 +24,9 @@ public class Storage {
         }
     }
 
-    public ArrayList<Task> load()
+    public TaskList load()
             throws FileNotFoundException, HermesMissingDescription, HermesMissingTime {
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
         Scanner s = new Scanner(file);
         while (s.hasNext()) {
             tasks.add(stringToTask(s.nextLine()));
@@ -37,11 +34,11 @@ public class Storage {
         return tasks;
     }
 
-    public void store(ArrayList<Task> tasks) throws IOException {
+    public void store(TaskList tasks) throws IOException {
         try (FileWriter writer = new FileWriter(file)) {
-            for (Task task : tasks) {
-                if (task != null) {
-                    writer.write(task + System.lineSeparator());
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i) != null) {
+                    writer.write(tasks.get(i) + System.lineSeparator());
                 }
             }
         }
@@ -49,7 +46,7 @@ public class Storage {
 
     private Task stringToTask(String string) throws HermesMissingTime, HermesMissingDescription {
         boolean marked = string.charAt(4) == 'X';
-        String description = string.substring(6);
+        String description = string.substring(7);
         return switch (string.charAt(1)) {
         case 'T' -> new Todo(description, marked);
         case 'D' -> new Deadline(description, marked);

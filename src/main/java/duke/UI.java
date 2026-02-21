@@ -1,5 +1,6 @@
 package duke;
 
+import duke.exceptions.Errors;
 import duke.task.Task;
 
 public class UI {
@@ -90,6 +91,7 @@ public class UI {
     public void unmark(Task task) {
         add("Ok...This is now marked as undone");
         add(task.toString());
+        display();
     }
 
     public void list(TaskList tasks) {
@@ -97,5 +99,16 @@ public class UI {
         for (int i = 0; i < tasks.size(); i++) {
             add((i + 1) + "." + tasks.get(i));
         }
+        display();
+    }
+
+    public void errorMessage(Errors e) {
+        switch(e) {
+        case NOT_NUMBER -> add("I'm going to need a number");
+        case INVALID_COMMAND -> add("I do not understand your command");
+        case MISSING_TIME -> add("You need to specify a time");
+        case MISSING_DESCRIPTION -> add("I need a description of the task");
+        }
+        display();
     }
 }

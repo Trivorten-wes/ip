@@ -1,29 +1,25 @@
 package duke;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
 
-import duke.command.CommandWord;
+import duke.command.Command;
+import duke.command.ListCommand;
+import duke.exceptions.Errors;
+import duke.exceptions.HermesInvalidParameter;
 import duke.exceptions.HermesMissingTime;
 import duke.exceptions.HermesMissingDescription;
-import duke.task.Deadline;
-import duke.task.Event;
-import duke.task.Task;
-import duke.task.Todo;
 
 public class Hermes {
-    static ArrayList<Task> tasks = new ArrayList<>();
-    static UI print = new UI();
+    static TaskList tasks = new TaskList();
+    static UI ui = new UI();
     final static String filePath = "data/tasks.txt";
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         Storage storage = new Storage(filePath);
+        Parser parser = new Parser();
 
-        print.hello();
+        ui.hello();
         String message = in.nextLine().strip();
 
         try {
@@ -36,16 +32,30 @@ public class Hermes {
         }
 
         while (!message.equals("bye")) {
-
-            String[] messageComponents = message.split("\\s+", 2);
-            CommandWord commandWord;
-            String taskDescription = "";
-
-            print.display();
-            message = in.nextLine();
+            String[] components = message.split("\\s+", 2);
+            try {
+                Command c = parser.parse(components[0]);
+                if (c instanceof ListCommand) {
+                    c.execute("", tasks, ui);
+                } else {
+                    c.execute(components[1], tasks, ui);
+                }
+                storage.store(tasks);
+            } catch (IllegalArgumentException e) {
+                ui.errorMessage(Errors.INVALID_COMMAND);
+            } catch (HermesMissingTime e) {
+                ui.errorMessage(Errors.MISSING_TIME);
+            } catch (HermesMissingDescription | ArrayIndexOutOfBoundsException e) {
+                ui.errorMessage(Errors.MISSING_DESCRIPTION);
+            } catch (HermesInvalidParameter e) {
+                ui.errorMessage(Errors.NOT_NUMBER);
+            } catch (IOException e) {
+                System.out.println("some file error");
+            }
+            message = in.nextLine().strip();
         }
 
-        print.bye();
+        ui.bye();
     }
 
 //    /**
