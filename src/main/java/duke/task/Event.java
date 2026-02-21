@@ -5,6 +5,8 @@ import duke.exceptions.HermesMissingDescription;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Event extends Task {
     private LocalDateTime start;
@@ -30,8 +32,21 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + "from: " + start
-                + " to: " + end;
+        String fromDate;
+        String toDate;
+        if (start.toLocalTime().equals(LocalTime.MIDNIGHT)) {
+            fromDate = start.toLocalDate().format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        } else {
+            fromDate = start.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm"));
+        }
+
+        if (end.toLocalTime().equals(LocalTime.MIDNIGHT)) {
+            toDate = end.toLocalDate().format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        } else {
+            toDate = end.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm"));
+        }
+        return "[E]" + super.toString() + "from: " + fromDate
+                + " to: " + toDate;
     }
 
 }

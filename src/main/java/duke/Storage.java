@@ -53,6 +53,6 @@ public class Storage {
         case 'E' -> new AddCommand(TaskType.EVENT);
         default -> throw new HermesMissingDescription();
         };
-        return command.silentExecute(description, marked);
+        return command.silentExecute(description, marked, true);
     }
 }

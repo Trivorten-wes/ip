@@ -18,13 +18,13 @@ public class AddCommand implements Command{
         this.taskType = taskType;
     }
 
-    public Task silentExecute(String description, boolean isDone) throws HermesInvalidTime{
+    public Task silentExecute(String description, boolean isDone, boolean isLoad) throws HermesInvalidTime{
         switch (taskType) {
         case TODO:
             return new Todo(description);
         case DEADLINE:
             String[] components = description.split("by:");
-            return new Deadline(components[0], parseDateTime(components[1]));
+            return new Deadline(components[0], parseDateTime(components[1], isLoad));
         case EVENT:
             int fromIndex = description.indexOf("from:");
             int toIndex = description.indexOf("to:");
@@ -34,12 +34,12 @@ public class AddCommand implements Command{
             if (fromIndex == -1 || toIndex == -1) {
                 throw new HermesInvalidTime();
             } else if (fromIndex < toIndex) {
-                from = parseDateTime(description.substring(fromIndex + 5, toIndex));
-                to = parseDateTime(description.substring(toIndex + 3));
+                from = parseDateTime(description.substring(fromIndex + 5, toIndex), isLoad);
+                to = parseDateTime(description.substring(toIndex + 3), isLoad);
                 task = description.substring(0, fromIndex);
             } else {
-                from = parseDateTime(description.substring(fromIndex + 5));
-                to = parseDateTime(description.substring(toIndex + 3, fromIndex));
+                from = parseDateTime(description.substring(fromIndex + 5), isLoad);
+                to = parseDateTime(description.substring(toIndex + 3, fromIndex), isLoad);
                 task = description.substring(0, toIndex);
             }
             return new Event(task, from, to, isDone);
@@ -49,13 +49,20 @@ public class AddCommand implements Command{
 
     @Override
     public void execute(String description, TaskList tasks, UI ui) throws HermesMissingDescription, HermesInvalidTime {
-        tasks.add(silentExecute(description, false));
+        tasks.add(silentExecute(description, false, false));
         ui.newTask(tasks.get(tasks.size() - 1), tasks.size() - 1);
     }
 
-    private LocalDateTime parseDateTime(String textInput) throws HermesInvalidTime{
-        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        DateTimeFormatter dFormatter  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private LocalDateTime parseDateTime(String textInput, boolean isLoad) throws HermesInvalidTime{
+        DateTimeFormatter dtFormatter;
+        DateTimeFormatter dFormatter;
+        if (isLoad) {
+            dtFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+            dFormatter  = DateTimeFormatter.ofPattern("MMM dd yyyy");
+        } else {
+            dtFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            dFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        }
 
         try {
             return LocalDateTime.parse(textInput.strip(), dtFormatter);
