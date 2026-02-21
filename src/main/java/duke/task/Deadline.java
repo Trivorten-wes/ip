@@ -14,6 +14,8 @@ public class Deadline extends Task {
 
     public Deadline(String description, LocalDateTime date, boolean isDone) throws HermesMissingDescription {
         setDescription(description);
+        setBy(date);
+        setDone(isDone);
     }
 
     @Override
