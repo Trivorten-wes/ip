@@ -7,7 +7,7 @@ import duke.exceptions.HermesMissingTime;
 
 public class FindCommand implements Command {
     @Override
-    public void execute(String description, TaskList tasks, UI ui) throws HermesMissingDescription, HermesMissingTime {
+    public void execute(String description, TaskList tasks, UI ui) {
         String[] keywords = description.split("\\s+");
         TaskList matchingTasks = new TaskList();
         for (String keyword : keywords) {
