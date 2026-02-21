@@ -2,8 +2,6 @@ package duke.command;
 
 import duke.TaskList;
 import duke.UI;
-import duke.exceptions.HermesMissingDescription;
-import duke.exceptions.HermesMissingTime;
 
 public class FindCommand implements Command {
     @Override
