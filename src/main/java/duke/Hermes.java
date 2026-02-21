@@ -6,7 +6,7 @@ import duke.command.Command;
 import duke.command.ListCommand;
 import duke.exceptions.Errors;
 import duke.exceptions.HermesInvalidParameter;
-import duke.exceptions.HermesMissingTime;
+import duke.exceptions.HermesInvalidTime;
 import duke.exceptions.HermesMissingDescription;
 
 public class Hermes {
@@ -26,7 +26,7 @@ public class Hermes {
             tasks = storage.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (HermesMissingTime | HermesMissingDescription e) {
+        } catch (HermesInvalidTime | HermesMissingDescription e) {
             System.out.println("File Corrupted!");
             throw new RuntimeException(e);
         }
@@ -43,7 +43,7 @@ public class Hermes {
                 storage.store(tasks);
             } catch (IllegalArgumentException e) {
                 ui.errorMessage(Errors.INVALID_COMMAND);
-            } catch (HermesMissingTime e) {
+            } catch (HermesInvalidTime e) {
                 ui.errorMessage(Errors.MISSING_TIME);
             } catch (HermesMissingDescription | ArrayIndexOutOfBoundsException e) {
                 ui.errorMessage(Errors.MISSING_DESCRIPTION);
