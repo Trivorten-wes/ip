@@ -5,6 +5,7 @@ import duke.exceptions.HermesMissingDescription;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -30,7 +31,12 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
-        return "[D]" + super.toString() + "by: " + by;
+        String byDate;
+        if (by.toLocalTime().equals(LocalTime.MIDNIGHT)) {
+            byDate = by.toLocalDate().format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        } else {
+            byDate = by.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm"));
+        }
+        return "[D]" + super.toString() + "by: " + byDate;
     }
 }
