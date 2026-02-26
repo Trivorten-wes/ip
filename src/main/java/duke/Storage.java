@@ -1,7 +1,8 @@
 package duke;
 
+import duke.command.AddCommand;
 import duke.exceptions.HermesMissingDescription;
-import duke.exceptions.HermesMissingTime;
+import duke.exceptions.HermesInvalidTime;
 import duke.task.*;
 
 import java.io.File;
@@ -24,7 +25,7 @@ public class Storage {
     }
 
     public TaskList load()
-            throws FileNotFoundException, HermesMissingDescription, HermesMissingTime {
+            throws FileNotFoundException, HermesMissingDescription, HermesInvalidTime {
         TaskList tasks = new TaskList();
         Scanner s = new Scanner(file);
         while (s.hasNext()) {
@@ -43,14 +44,15 @@ public class Storage {
         }
     }
 
-    private Task stringToTask(String string) throws HermesMissingTime, HermesMissingDescription {
+    private Task stringToTask(String string) throws HermesInvalidTime, HermesMissingDescription {
         boolean marked = string.charAt(4) == 'X';
         String description = string.substring(7);
-        return switch (string.charAt(1)) {
-        case 'T' -> new Todo(description, marked);
-        case 'D' -> new Deadline(description, marked);
-        case 'E' -> new Event(description, marked);
-        default -> null;
+        AddCommand command = switch (string.charAt(1)) {
+        case 'T' -> new AddCommand(TaskType.TODO);
+        case 'D' -> new AddCommand(TaskType.DEADLINE);
+        case 'E' -> new AddCommand(TaskType.EVENT);
+        default -> throw new HermesMissingDescription();
         };
+        return command.silentExecute(description, marked, true);
     }
 }

@@ -1,33 +1,31 @@
 package duke.task;
 
-import duke.exceptions.HermesMissingTime;
 import duke.exceptions.HermesMissingDescription;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
-    private String by;
+    private LocalDateTime by;
 
-    public void setBy(String date) {
+    public void setBy(LocalDateTime date) {
         by = date;
     }
-    public Deadline(String description, boolean isDone) throws HermesMissingTime, HermesMissingDescription {
-        String[] components = description.split("by: ");
-        if (components.length <= 1) {
-            throw new HermesMissingTime();
-        }
-        if (components[0].isEmpty()) {
-            throw new HermesMissingDescription();
-        }
-        setDescription(components[0]);
-        setBy(components[1]);
-        setDone(isDone);
-    }
 
-    public Deadline(String description) throws HermesMissingTime, HermesMissingDescription {
-        this(description, false);
+    public Deadline(String description, LocalDateTime date, boolean isDone) throws HermesMissingDescription {
+        setDescription(description);
+        setBy(date);
+        setDone(isDone);
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + "by: " + by;
+        String byDate;
+        if (by.toLocalTime().equals(LocalTime.MIDNIGHT)) {
+            byDate = by.toLocalDate().format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        } else {
+            byDate = by.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm"));
+        }
+        return "[D]" + super.toString() + "by: " + byDate;
     }
 }
