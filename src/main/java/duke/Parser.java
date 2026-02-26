@@ -19,6 +19,7 @@ public class Parser {
             case TODO -> new AddCommand(TaskType.TODO);
             case DEADLINE -> new AddCommand(TaskType.DEADLINE);
             case EVENT -> new AddCommand(TaskType.EVENT);
+            case FIND -> new FindCommand();
         };
     }
 }

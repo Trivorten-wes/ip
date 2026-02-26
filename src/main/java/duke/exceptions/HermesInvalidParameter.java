@@ -1,5 +1,5 @@
 package duke.exceptions;
 
-public class HermesInvalidParameter extends RuntimeException {
+public class HermesInvalidParameter extends Exception {
 
 }
