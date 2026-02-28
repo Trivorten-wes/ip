@@ -10,6 +10,11 @@ public class TaskList {
         tasks = new ArrayList<>();
     }
 
+    /**
+     * Adds a task to the list if
+     * it is not already in it
+     * @param task Task to be added
+     */
     public void add(Task task) {
         if (!tasks.contains(task)) {
             tasks.add(task);
