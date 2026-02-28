@@ -7,10 +7,6 @@ public class UI {
     private final String[] linesToPrint;
     private int numOfLines;
 
-    String greetings1 = "Hello! I'm Hermes the God of communication!";
-    String greetings2 = "What can I do for you?";
-    String bye = "Bye! Hope to see you again soon!";
-
     UI() {
         linesToPrint = new String[100];
         numOfLines = 0;
@@ -45,8 +41,8 @@ public class UI {
      * Prints hello message
      */
     public void hello() {
-        add(greetings1);
-        add(greetings2);
+        add("Hello! I'm Hermes the God of communication!");
+        add("What can I do for you?");
         display();
     }
 
@@ -54,7 +50,7 @@ public class UI {
      * Prints goodbye message
      */
     public void bye() {
-        add(bye);
+        add("Bye! I'm out!");
         display();
     }
 
@@ -77,43 +73,66 @@ public class UI {
      * @param task task that has been removed
      */
     public void removeTask(Task task) {
-        add("Not sure why you would remove a task but this task is gone");
+        add("Got lazy and removed a task?");
         add(" " + task.toString());
         display();
     }
 
+    /**
+     * Prints the message associated
+     * with marking a task as done
+     * @param task task that is done
+     */
     public void mark(Task task) {
-        add("Good Job! This is now marked as done:");
+        add("Finally got to doing work!");
         add(task.toString());
         display();
     }
 
+    /**
+     * Prints the message associated with
+     * marking a task as not done
+     * @param task task that is unmarked
+     */
     public void unmark(Task task) {
-        add("Ok...This is now marked as undone");
+        add("How can you even undo this");
         add(task.toString());
         display();
     }
 
+    /**
+     * Prints all the tasks in the list
+     * @param tasks list of tasks to be printed
+     */
     public void list(TaskList tasks) {
-        add("Here are your tasks:");
+        add("This is all you have right now");
         for (int i = 0; i < tasks.size(); i++) {
             add((i + 1) + "." + tasks.get(i));
         }
         display();
     }
 
+    /**
+     * Prints an error message based
+     * on the error
+     * @param e
+     */
     public void errorMessage(Errors e) {
         switch(e) {
         case NOT_NUMBER -> add("I'm going to need a number");
-        case INVALID_COMMAND -> add("I do not understand your command");
-        case MISSING_TIME -> add("You need to specify a time");
+        case INVALID_COMMAND -> add("That is out of my realm, I need a different command");
+        case MISSING_TIME -> add("Time should be dd/MM/yyyy");
         case MISSING_DESCRIPTION -> add("I need a description of the task");
         }
         display();
     }
 
+    /**
+     * Prints all the tasks in the list
+     * @param tasks The lists of tasks to be printed
+     */
     public void showFound(TaskList tasks) {
-        add("Bam! Here's the tasks as you requested");
+        add("*Snap* Here you go");
         for (int i = 0; i < tasks.size(); i++) {
             add((i + 1) + "." + tasks.get(i));
         }
