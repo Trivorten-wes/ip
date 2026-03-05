@@ -13,7 +13,7 @@ public class MarkCommand implements Command {
 
     /**
      * Executes the mark command which
-     * marks the tasks inputted as done
+     * marks or unmark the tasks inputted as done
      * then calls the UI method to print to the
      * user an acknowledgment message
      * @param description String which contains information about

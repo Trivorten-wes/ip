@@ -23,6 +23,12 @@ public class Event extends Task {
         setDone(isDone);
     }
 
+    /**
+     * Returns the event as a String to display
+     * to the user. The date format is different from the
+     * format that the user entered in
+     * @return String to show the user
+     */
     @Override
     public String toString() {
         String fromDate;
