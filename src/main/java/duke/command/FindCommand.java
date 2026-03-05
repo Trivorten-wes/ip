@@ -4,6 +4,13 @@ import duke.TaskList;
 import duke.UI;
 
 public class FindCommand implements Command {
+    /**
+     * Prints out the list of tasks that
+     * contain the keywords
+     * @param description One or more keywords
+     * @param tasks The list of tasks to search in
+     * @param ui UI class used to print the list of tasks
+     */
     @Override
     public void execute(String description, TaskList tasks, UI ui) {
         String[] keywords = description.split("\\s+");

@@ -11,7 +11,20 @@ public class MarkCommand implements Command {
         this.isDone = isDone;
     }
 
-    public void execute(String description, TaskList tasks, UI ui) throws HermesInvalidParameter {
+    /**
+     * Executes the mark command which
+     * marks or unmark the tasks inputted as done
+     * then calls the UI method to print to the
+     * user an acknowledgment message
+     * @param description String which contains information about
+     *                    which task to mark
+     * @param tasks the lists of tasks which contains the tasks to be marked
+     * @param ui UI class that is used to print the message
+     * @throws HermesInvalidParameter an error associated to a string that
+     *                                is not a valid integer
+     */
+    public void execute(String description, TaskList tasks, UI ui)
+            throws HermesInvalidParameter {
         try {
             int index = Integer.parseInt(description) - 1;
             if (isDone) {

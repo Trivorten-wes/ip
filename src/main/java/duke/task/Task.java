@@ -28,6 +28,11 @@ public abstract class Task {
         return description;
     }
 
+    /**
+     * Convert to a string to print
+     * to the user in a more readable format
+     * @return String to be displayed
+     */
     @Override
     public String toString() {
         String doneness;
