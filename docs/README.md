@@ -7,7 +7,7 @@ Notes about the command format
 - Words in UPPER_CASE are the parameters to be supplied by the user.
 e.g. in send w/WALLET_NAME, WALLET_NAME is a parameter which can be used as w/alice.
 - Items in square brackets are optional.
-- Command word in case-insensitive
+- Command words are case-insensitive
 
 ## Adding Tasks
 There are 3 different types of tasks that can be added:
@@ -54,7 +54,7 @@ Format: mark INDEX
 Example: mark 2
 
 ## Unmark
-Mark a task as completed
+Unmark a task as completed
 
 Format: unmark INDEX
 
