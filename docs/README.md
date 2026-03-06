@@ -7,7 +7,7 @@ Notes about the command format
 - Words in UPPER_CASE are the parameters to be supplied by the user.
 e.g. in send w/WALLET_NAME, WALLET_NAME is a parameter which can be used as w/alice.
 - Items in square brackets are optional.
-- Command word is case insensitive
+- Command word in case-insensitive
 
 ## Adding Tasks
 There are 3 different types of tasks that can be added:
@@ -30,7 +30,7 @@ Example: deadline finish ip by: 06/03/2026 23:59
 ### Event
 Format: event DESCRIPTION from: DATE [TIME] to: DATE [TIME]
 
-- Adds a event task with the specified description and with a start and end date to the list.
+- Adds an event task with the specified description and with a start and end date to the list.
 - DATE and TIME takes the format of dd/MM/yyyy HH:mm
 
 Example: event CS2113 lecture from: 06/03/2026 16:00 to: 06/03/2026 18:00
@@ -49,7 +49,7 @@ Format: mark INDEX
 
 - Marks the task specified at INDEX
 - The index refers to the index number shown in the displayed task list
-- INDEX has to be an positive integer. 1, 2, 3...
+- INDEX has to be a positive integer. 1, 2, 3...
 
 Example: mark 2
 
@@ -60,7 +60,7 @@ Format: unmark INDEX
 
 - Unmarks the task specified at INDEX
 - The index refers to the index number shown in the displayed task list
-- INDEX has to be an positive integer. 1, 2, 3...
+- INDEX has to be a positive integer. 1, 2, 3...
 
 Example: unmark 3
 ## Delete
@@ -70,7 +70,7 @@ Format: delete INDEX
 
 - Deletes the task specified at INDEX
 - The index refers to the index number shown in the displayed task list
-- INDEX has to be an positive integer. 1, 2, 3...
+- INDEX has to be a positive integer. 1, 2, 3...
 
 Example: delete 1
 
